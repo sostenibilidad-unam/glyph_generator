@@ -3,7 +3,8 @@ import math
 import numpy as np
 
 def angle2xy(centerX, centerY, radius, angleInDegrees):
-  angleInRadians = (angleInDegrees-90) * math.pi / 180.0;
+  """ calculates [x,y] from angle and radius """
+  angleInRadians = (angleInDegrees-90) * math.pi / 180.0
   x= centerX + (radius * math.cos(angleInRadians))
   y= centerY + (radius * math.sin(angleInRadians))
   return [x,y]
