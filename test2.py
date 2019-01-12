@@ -80,7 +80,7 @@ data = { "total": {"name" : "Vulnerabilidad",
                         "subcategories":[{"name":"e1","value":0.2},
                                          {"name":"e2","value":0.4},
                                          {"name":"e3","value":0.8},
-                                         {"name":"e4","value":0.5}
+                                         #{"name":"e4","value":0.5}
                                          ]},
                        {"name":"Susceptibilidad",
                         "value":0.4,
@@ -107,7 +107,7 @@ data2 = { "total": {"name" : "Vulnerabilidad",
                         "subcategories":[{"name":"e1","value":1.0},
                                          {"name":"e2","value":1.0},
                                          {"name":"e3","value":1.0},
-                                         {"name":"e4","value":1.0}
+                                         #{"name":"e4","value":1.0}
                                          ]},
                        {"name":"Susceptibilidad",
                         "value":1.0,
@@ -139,26 +139,61 @@ data3 = { "total": {"name" : "Vulnerabilidad",
                                          ]},
                        {"name":"Susceptibilidad",
                         "value":0.5,
-                        "subcategories":[{"name":"s1","value":0.5},
+                        "subcategories":[{"name":"s1","value":0.3},
                                          {"name":"s2","value":0.5},
-                                         {"name":"s3","value":0.5},
-                                         {"name":"s4","value":0.5}
+                                         {"name":"s3","value":0.7},
+                                         #{"name":"s4","value":0.5}
                                          ]},
                        {"name":"Resiliencia",
                         "value":0.8,
-                        "subcategories":[{"name":"r1","value":0.8},
-                                         {"name":"r2","value":0.8},
+                        "subcategories":[{"name":"r1","value":0.6},
+                                         {"name":"r2","value":0.7},
                                          {"name":"r3","value":0.8},
-                                         {"name":"r4","value":0.8},
-                                         {"name":"r5","value":0.8}
+                                         {"name":"r4","value":0.9},
+                                         {"name":"r5","value":1}
                                          ]},
                         {"name":"Otra",
                          "value":0.6,
-                         "subcategories":[{"name":"o1","value":0.6},
-                                          {"name":"o2","value":0.6},
-                                          {"name":"o3","value":0.6},
-                                          {"name":"o4","value":0.6},
+                         "subcategories":[{"name":"o1","value":0.2},
+                                          {"name":"o2","value":1},
+                                          {"name":"o3","value":0.5},
+                                          {"name":"o4","value":0.7},
                                           {"name":"o5","value":0.6}
+                                          ]}
+
+                    ]}
+
+data4 = { "total": {"name" : "Vulnerabilidad",
+                 "value": 1},
+         "categories":[{"name":"Exposicion",
+                        "value":1.0,
+                        "subcategories":[{"name":"e1","value":1.0},
+                                         {"name":"e2","value":1.0},
+                                         {"name":"e3","value":1.0},
+                                         {"name":"e4","value":1.0}
+                                         ]},
+                       {"name":"Susceptibilidad",
+                        "value":1,
+                        "subcategories":[{"name":"s1","value":1},
+                                         {"name":"s2","value":1},
+                                         {"name":"s3","value":1},
+                                         #{"name":"s4","value":1}
+                                         ]},
+                       {"name":"Resiliencia",
+                        "value":1,
+                        "subcategories":[{"name":"r1","value":1},
+                                         {"name":"r2","value":1},
+                                         {"name":"r3","value":1},
+                                         {"name":"r4","value":1},
+                                         {"name":"r5","value":1}
+                                         ]},
+                        {"name":"Otra",
+                         "value":1,
+                         "subcategories":[{"name":"o1","value":1},
+                                          {"name":"o2","value":1},
+                                          {"name":"o3","value":1},
+                                          {"name":"o4","value":1},
+                                          {"name":"o5","value":1}
                                           ]}
 
                     ]}
@@ -176,9 +211,14 @@ addCircle(dwg, current_group,70,centro2,data2)
 addArcs(dwg, current_group,70,centro2,data2)
 addDots(dwg, current_group,70,centro2,data2)
 
-centro3 = [800,200]
+centro3 = [200,500]
 addCircle(dwg, current_group,70,centro3,data3)
 addArcs(dwg, current_group,70,centro3,data3)
 addDots(dwg, current_group,70,centro3,data3)
+
+centro4 = [500,500]
+addCircle(dwg, current_group,70,centro4,data4)
+addArcs(dwg, current_group,70,centro4,data4)
+addDots(dwg, current_group,70,centro4,data4)
 
 dwg.save()
