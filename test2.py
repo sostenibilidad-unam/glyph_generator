@@ -28,10 +28,10 @@ def addArc(dwg, current_group, p0, p1, radius, width):
             ))
 
 
-def addArcs(dwg, current_group, categories, radius, center, data):
+def addArcs(dwg, current_group, radius, center, data):
     """ Adds as many as categories arcs given radius and center """
     values = []
-    #se deberia deducir el categories de los datos en vez de que sea otro parametro
+    categories = len(data["categories"])
     for category in data["categories"]:
         values.append(category["value"])
 
@@ -42,10 +42,11 @@ def addArcs(dwg, current_group, categories, radius, center, data):
         width = radius * .3 * values[i-1]
         addArc(dwg, current_group, p0=angle2xy(center[0],center[1],r,cortesAngulares[i]-delta), p1=angle2xy(center[0],center[1],r,cortesAngulares[i-1]+delta), radius=r, width=width)
 
-def addCircle(dwg, current_group,radius,center,total):
+def addCircle(dwg, current_group,radius,center,data):
+    total = data["total"]["value"]
     dwg.add(dwg.circle(center=(center[0],center[1]),
                        r=radius*0.6*total, #aqui talvez que un total de 0 no de un radio 0 si no un radio minimo?
-                       stroke=svgwrite.rgb(15, 15, 15, '%'),
+                       stroke='none',#svgwrite.rgb(15, 15, 15, '%'),
                        fill='green')
     )
 
@@ -59,7 +60,7 @@ def addDots(dwg, current_group,radius,center,data):
         cual_category += 1
         n_subcategories = len(category["subcategories"])
         dots_angles = np.linspace(cortesAngulares[cual_category],cortesAngulares[cual_category+1],n_subcategories+2)[1:-1]
-        dots_xys = [angle2xy(center[0],center[1],radius*1.3,dots_angle) for dots_angle in dots_angles]
+        dots_xys = [angle2xy(center[0],center[1],radius*1.4,dots_angle) for dots_angle in dots_angles]
         cual_subcategory = -1
         for subcategory in category["subcategories"]:
             cual_subcategory += 1
@@ -99,14 +100,85 @@ data = { "total": {"name" : "Vulnerabilidad",
 
                     ]}
 
+data2 = { "total": {"name" : "Vulnerabilidad",
+                 "value": 1.0},
+         "categories":[{"name":"Exposicion",
+                        "value":1.0,
+                        "subcategories":[{"name":"e1","value":1.0},
+                                         {"name":"e2","value":1.0},
+                                         {"name":"e3","value":1.0},
+                                         {"name":"e4","value":1.0}
+                                         ]},
+                       {"name":"Susceptibilidad",
+                        "value":1.0,
+                        "subcategories":[{"name":"s1","value":1.0},
+                                         {"name":"s2","value":1.0},
+                                         {"name":"s3","value":1.0},
+                                         {"name":"s4","value":1.0}
+                                         ]},
+                       {"name":"Resiliencia",
+                        "value":1.0,
+                        "subcategories":[{"name":"r1","value":1.0},
+                                         {"name":"r2","value":1.0},
+                                         {"name":"r3","value":1.0},
+                                         {"name":"r4","value":1.0},
+                                         {"name":"r5","value":1.0}
+                                         ]}
+
+                    ]}
 
 
+data3 = { "total": {"name" : "Vulnerabilidad",
+                 "value": 0.7},
+         "categories":[{"name":"Exposicion",
+                        "value":1.0,
+                        "subcategories":[{"name":"e1","value":1.0},
+                                         {"name":"e2","value":1.0},
+                                         {"name":"e3","value":1.0},
+                                         {"name":"e4","value":1.0}
+                                         ]},
+                       {"name":"Susceptibilidad",
+                        "value":0.5,
+                        "subcategories":[{"name":"s1","value":0.5},
+                                         {"name":"s2","value":0.5},
+                                         {"name":"s3","value":0.5},
+                                         {"name":"s4","value":0.5}
+                                         ]},
+                       {"name":"Resiliencia",
+                        "value":0.8,
+                        "subcategories":[{"name":"r1","value":0.8},
+                                         {"name":"r2","value":0.8},
+                                         {"name":"r3","value":0.8},
+                                         {"name":"r4","value":0.8},
+                                         {"name":"r5","value":0.8}
+                                         ]},
+                        {"name":"Otra",
+                         "value":0.6,
+                         "subcategories":[{"name":"o1","value":0.6},
+                                          {"name":"o2","value":0.6},
+                                          {"name":"o3","value":0.6},
+                                          {"name":"o4","value":0.6},
+                                          {"name":"o5","value":0.6}
+                                          ]}
 
-dwg = svgwrite.Drawing(filename="test.svg", debug=True, size=(1500,800))
+                    ]}
+
+
+dwg = svgwrite.Drawing(filename="test2.svg", debug=True, size=(1500,800))
 current_group = dwg.add(dwg.g(id='uno', fill='none', fill_opacity=0 ))
 centro1 = [200,200]
-addCircle(dwg, current_group,50,centro1,data["total"]["value"])
-addArcs(dwg, current_group,3,50,centro1,data)
-addDots(dwg, current_group,50,centro1,data)
+addCircle(dwg, current_group,70,centro1,data)
+addArcs(dwg, current_group,70,centro1,data)
+addDots(dwg, current_group,70,centro1,data)
+
+centro2 = [500,200]
+addCircle(dwg, current_group,70,centro2,data2)
+addArcs(dwg, current_group,70,centro2,data2)
+addDots(dwg, current_group,70,centro2,data2)
+
+centro3 = [800,200]
+addCircle(dwg, current_group,70,centro3,data3)
+addArcs(dwg, current_group,70,centro3,data3)
+addDots(dwg, current_group,70,centro3,data3)
 
 dwg.save()
