@@ -39,8 +39,8 @@ def addArcs(dwg, current_group, categories, radius, center, values):
         addArc(dwg, current_group, p0=angle2xy(center[0],center[1],r,cortesAngulares[i]-delta), p1=angle2xy(center[0],center[1],r,cortesAngulares[i-1]+delta), radius=r, width=width)
 
 
-dwg = svgwrite.Drawing(filename="test.svg", debug=True, size=(4000,1000))
-current_group = dwg.add(dwg.g(id='uno', stroke='red', stroke_width=3, fill='none', fill_opacity=0 ))
+dwg = svgwrite.Drawing(filename="test.svg", debug=True, size=(1500,800))
+current_group = dwg.add(dwg.g(id='uno', fill='none', fill_opacity=0 ))
 centro1 = [200,200]
 addArcs(dwg, current_group,3,50,centro1,[0.5,0.2,1])
 centro2 = [500,200]
