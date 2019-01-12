@@ -72,6 +72,11 @@ def addDots(dwg, current_group,radius,center,data):
                                fill='green')
             )
 
+def makeGlyph(dwg, current_group,radius,center,data):
+    addCircle(dwg, current_group,radius,center,data)
+    addArcs(dwg, current_group,radius,center,data)
+    addDots(dwg, current_group,radius,center,data)
+
 
 data = { "total": {"name" : "Vulnerabilidad",
                  "value": 0.8},
@@ -201,24 +206,18 @@ data4 = { "total": {"name" : "Vulnerabilidad",
 
 dwg = svgwrite.Drawing(filename="test2.svg", debug=True, size=(1500,800))
 current_group = dwg.add(dwg.g(id='uno', fill='none', fill_opacity=0 ))
+
 centro1 = [200,200]
-addCircle(dwg, current_group,70,centro1,data)
-addArcs(dwg, current_group,70,centro1,data)
-addDots(dwg, current_group,70,centro1,data)
+makeGlyph(dwg, current_group,70,centro1,data)
 
 centro2 = [500,200]
-addCircle(dwg, current_group,70,centro2,data2)
-addArcs(dwg, current_group,70,centro2,data2)
-addDots(dwg, current_group,70,centro2,data2)
+makeGlyph(dwg, current_group,70,centro2,data2)
 
 centro3 = [200,500]
-addCircle(dwg, current_group,70,centro3,data3)
-addArcs(dwg, current_group,70,centro3,data3)
-addDots(dwg, current_group,70,centro3,data3)
+makeGlyph(dwg, current_group,70,centro3,data3)
 
 centro4 = [500,500]
-addCircle(dwg, current_group,70,centro4,data4)
-addArcs(dwg, current_group,70,centro4,data4)
-addDots(dwg, current_group,70,centro4,data4)
+makeGlyph(dwg, current_group,70,centro4,data4)
+
 
 dwg.save()
