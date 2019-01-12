@@ -11,7 +11,7 @@ def angle2xy(centerX, centerY, radius, angleInDegrees):
 
 
 
-def addArc(dwg, current_group, p0, p1, radius):
+def addArc(dwg, current_group, p0, p1, radius, value):
     """ Adds an arc that cirles to the right as it moves from p0 to p1 """
     args = {'x0':p0[0],
         'y0':p0[1],
@@ -20,33 +20,31 @@ def addArc(dwg, current_group, p0, p1, radius):
         'ellipseRotation':0, #has no effect for circles
         'x1':(p1[0]-p0[0]),
         'y1':(p1[1]-p0[1])}
+    color = 'green' #aqui hay que usar una rampa de color que dependa del value
+    width = 30 * value
     current_group.add(dwg.path(d="M %(x0)f,%(y0)f a %(xradius)f,%(yradius)f %(ellipseRotation)f 0,0 %(x1)f,%(y1)f"%args,
              fill="none",
-             stroke='red', stroke_width=30
+             stroke=color, stroke_width=width
             ))
 
 
-def addArcs(dwg, current_group, categories, radius, center):
+def addArcs(dwg, current_group, categories, radius, center, values):
     """ Adds as many as categories arcs given radius and center """
 
     cortesAngulares = np.linspace(0,360,categories+1)
     delta = (7/120)*cortesAngulares[1]
     for i in range(1,categories+1):
-        addArc(dwg, current_group, p0=angle2xy(center[0],center[1],radius,cortesAngulares[i]-delta), p1=angle2xy(center[0],center[1],radius,cortesAngulares[i-1]+delta), radius=100)
+        r = radius-(15*(1.0-values[i-1]))
+        addArc(dwg, current_group, p0=angle2xy(center[0],center[1],r,cortesAngulares[i]-delta), p1=angle2xy(center[0],center[1],r,cortesAngulares[i-1]+delta), radius=r, value=values[i-1])
 
 
 dwg = svgwrite.Drawing(filename="test.svg", debug=True, size=(4000,1000))
 current_group = dwg.add(dwg.g(id='uno', stroke='red', stroke_width=3, fill='none', fill_opacity=0 ))
 centro1 = [200,200]
-addArcs(dwg, current_group,3,100,centro1)
+addArcs(dwg, current_group,3,100,centro1,[0.5,0.2,1])
 centro2 = [500,200]
-addArcs(dwg, current_group,4,100,centro2)
+addArcs(dwg, current_group,4,100,centro2,[1,0.5,0.2,0.9])
 centro3 = [800,200]
-addArcs(dwg, current_group,5,100,centro3)
-centro4 = [200,500]
-addArcs(dwg, current_group,6,100,centro4)
-centro5 = [500,500]
-addArcs(dwg, current_group,7,100,centro5)
-centro6 = [800,500]
-addArcs(dwg, current_group,8,100,centro6)
+addArcs(dwg, current_group,5,100,centro3,[1,0.5,0.2,0.8,0.3])
+
 dwg.save()
