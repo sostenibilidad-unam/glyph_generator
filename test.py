@@ -3,7 +3,7 @@ import math
 import numpy as np
 
 def angle2xy(centerX, centerY, radius, angleInDegrees):
-  """ calculates [x,y] from angle and radius """
+  """ Calculates [x,y] from angle and radius """
   angleInRadians = (angleInDegrees-90) * math.pi / 180.0
   x= centerX + (radius * math.cos(angleInRadians))
   y= centerY + (radius * math.sin(angleInRadians))
@@ -43,4 +43,10 @@ centro2 = [500,200]
 addArcs(dwg, current_group,4,100,centro2)
 centro3 = [800,200]
 addArcs(dwg, current_group,5,100,centro3)
+centro4 = [200,500]
+addArcs(dwg, current_group,6,100,centro4)
+centro5 = [500,500]
+addArcs(dwg, current_group,7,100,centro5)
+centro6 = [800,500]
+addArcs(dwg, current_group,8,100,centro6)
 dwg.save()
