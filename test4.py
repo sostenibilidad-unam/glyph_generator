@@ -159,6 +159,63 @@ def addDots(dwg, current_group,radius,center,data,labels=False):
 
                 text_sub.add(svgwrite.text.TextPath(path=l, text=name, startOffset="13%", method='align', spacing='exact'))
 
+def addBars(dwg, current_group,radius,center,data,labels=False):
+    n_categories = len(data["categories"])
+    cortesAngulares = np.linspace(0,360,n_categories+1)
+
+    cual_category = -1
+    size = int(10*radius/100)
+    text_sub = dwg.add(svgwrite.text.Text("",style = "font-size:"+str(size)+"px; font-family:Arial; font-weight:bold"))
+    for category in data["categories"]:
+        cual_category += 1
+        n_subcategories = len(category["subcategories"])
+        dots_angles = np.linspace(cortesAngulares[cual_category],cortesAngulares[cual_category+1],n_subcategories+2)[1:-1]
+        dots_xys0 = [angle2xy(center[0],center[1],radius*1.26,dots_angle) for dots_angle in dots_angles]
+        cual_subcategory = -1
+        for subcategory in category["subcategories"]:
+            cual_subcategory += 1
+            r1 = radius*(1.26 + 0.25*subcategory["value"])
+            p1 = angle2xy(center[0],center[1],r1,dots_angles[cual_subcategory])
+            x1=p1[0]
+            y1=p1[1]
+            args = {'x0' : dots_xys0[cual_subcategory][0],
+                    'y0' : dots_xys0[cual_subcategory][1],
+                    'x1' : x1,
+                    'y1' : y1}
+
+            current_group.add(dwg.path(d="M %(x0)f %(y0)f %(x1)f %(y1)f"%args, fill="none", stroke='green', stroke_width=radius*0.1))
+
+            #add Labels
+            if labels:
+
+                if dots_angles[cual_subcategory] > 180:
+                    text0_xys = [angle2xy(center[0],center[1],radius*1.4,dots_angle-1) for dots_angle in dots_angles]
+                    text1_xys = [angle2xy(center[0],center[1],radius*2.5,dots_angle-1) for dots_angle in dots_angles]
+                    args = {'x1':text0_xys[cual_subcategory][0],
+                        'y1':text0_xys[cual_subcategory][1],
+                        'x0':text1_xys[cual_subcategory][0],
+                        'y0':text1_xys[cual_subcategory][1]}
+                else:
+                    text0_xys = [angle2xy(center[0],center[1],radius*1.4,dots_angle+1) for dots_angle in dots_angles]
+                    text1_xys = [angle2xy(center[0],center[1],radius*2.5,dots_angle+1) for dots_angle in dots_angles]
+                    args = {'x0':text0_xys[cual_subcategory][0],
+                        'y0':text0_xys[cual_subcategory][1],
+                        'x1':text1_xys[cual_subcategory][0],
+                        'y1':text1_xys[cual_subcategory][1]}
+
+                l = dwg.path(d="M %(x0)f %(y0)f %(x1)f %(y1)f"%args,
+                         fill="none",
+                         stroke_width=0
+                        )
+                current_group.add(l)
+                name = subcategory["name"]
+
+                text_sub.add(svgwrite.text.TextPath(path=l, text=name, startOffset="13%", method='align', spacing='exact'))
+
+def makeBarGlyph(dwg, current_group,radius,center,data,labels=False):
+    addCircle(dwg, current_group,radius,center,data,labels)
+    addArcs(dwg, current_group,radius,center,data,labels)
+    addBars(dwg, current_group,radius,center,data,labels)
 
 def makeGlyph(dwg, current_group,radius,center,data,labels=False):
     addCircle(dwg, current_group,radius,center,data,labels)
@@ -167,7 +224,7 @@ def makeGlyph(dwg, current_group,radius,center,data,labels=False):
 
 
 
-data = { "total": {"name" : "Vulnerabilidad",
+data1 = { "total": {"name" : "Vulnerabilidad",
                  "value": 0.5},
          "categories":[{"name":"Exposición",
                         "value":0.6,
@@ -195,7 +252,7 @@ data = { "total": {"name" : "Vulnerabilidad",
 
                     ]}
 
-data5 = { "total": {"name" : "Vulnerabilidad",
+data2 = { "total": {"name" : "Vulnerabilidad",
                  "value": 0.9},
          "categories":[{"name":"Exposición",
                         "value":0.7,
@@ -223,36 +280,6 @@ data5 = { "total": {"name" : "Vulnerabilidad",
 
                     ]}
 
-data2 = { "total": {"name" : "Vulnerabilidad",
-                 "value": 1.0},
-         "categories":[{"name":"Exposición",
-                        "value":1,
-                        "subcategories":[{"name":"Expocisión A","value":1},
-                                         {"name":"Expocisión B","value":1},
-                                         {"name":"Expocisión C","value":1},
-                                         #{"name":"e4","value":1}
-                                         ]},
-                      {"name":"Resiliencia",
-                       "value":1,
-                       "subcategories":[{"name":"Resiliencia A","value":1.0},
-                                      {"name":"Resiliencia B","value":1},
-                                      {"name":"Resiliencia C","value":1},
-                                      {"name":"Resiliencia D","value":1},
-                                      {"name":"Resiliencia E","value":1}
-                                      ]},
-                       {"name":"Susceptibilidad",
-                        "value":1,
-                        "subcategories":[{"name":"Susceptibilidad A","value":1},
-                                         {"name":"Susceptibilidad B","value":1},
-                                         {"name":"Susceptibilidad C","value":1},
-                                         {"name":"Susceptibilidad D","value":1}
-                                         ]},
-
-
-                    ]}
-
-
-
 
 data3 = { "total": {"name" : "Sostenibilidad",
                  "value": 0.7},
@@ -271,12 +298,12 @@ data3 = { "total": {"name" : "Sostenibilidad",
                                          #{"name":"Económica 4","value":0.5}
                                          ]},
                        {"name":"Ambiental",
-                        "value":0.8,
-                        "subcategories":[{"name":"Ambiental 1","value":0.6},
-                                         {"name":"Ambiental 2","value":0.7},
-                                         {"name":"Ambiental 3","value":0.8},
-                                         {"name":"Ambiental 4","value":0.9},
-                                         {"name":"Ambiental 5","value":1}
+                        "value":0.3,
+                        "subcategories":[{"name":"Ambiental 1","value":0.5},
+                                         {"name":"Ambiental 2","value":0.2},
+                                         {"name":"Ambiental 3","value":0.1},
+                                         {"name":"Ambiental 4","value":0.3},
+                                         {"name":"Ambiental 5","value":0.2}
                                          ]},
                         {"name":"Gobernanza",
                          "value":0.6,
@@ -289,61 +316,33 @@ data3 = { "total": {"name" : "Sostenibilidad",
 
                     ]}
 
-data4 = { "total": {"name" : "Sostenibilidad",
-                 "value": 1},
-         "categories":[{"name":"Social",
-                        "value":1.0,
-                        "subcategories":[{"name":"Social 1","value":1.0},
-                                         {"name":"Social 2","value":1.0},
-                                         {"name":"Social 3","value":1.0},
-                                         {"name":"Social 4","value":1.0}
-                                         ]},
-                       {"name":"Económica",
-                        "value":1,
-                        "subcategories":[{"name":"Económica 1","value":1},
-                                         {"name":"Económica 2","value":1},
-                                         {"name":"Económica 3","value":1},
-                                         #{"name":"Económica 4","value":1}
-                                         ]},
-                       {"name":"Ambiental",
-                        "value":1,
-                        "subcategories":[{"name":"Ambiental 1","value":1},
-                                         {"name":"Ambiental 2","value":1},
-                                         {"name":"Ambiental 3","value":1},
-                                         {"name":"Ambiental 4","value":1},
-                                         {"name":"Ambiental 5","value":1}
-                                         ]},
-                        {"name":"Gobernanza",
-                         "value":1,
-                         "subcategories":[{"name":"Gobernanza 1","value":1},
-                                          {"name":"Gobernanza 2","value":1},
-                                          {"name":"Gobernanza 3","value":1},
-                                          {"name":"Gobernanza 4","value":1},
-                                          {"name":"Gobernanza 5","value":1}
-                                          ]}
-
-                    ]}
 
 
 
 
-dwg = svgwrite.Drawing(filename="test3.svg", debug=True, size=(1500,800))
+
+dwg = svgwrite.Drawing(filename="test4.svg", debug=True, size=(1500,800))
 current_group = dwg.add(dwg.g(id='uno', fill='none', fill_opacity=0 ))
 
 centro1 = [300,200]
-makeGlyph(dwg, current_group,80,centro1,data,True)
+makeBarGlyph(dwg, current_group,80,centro1,data1,True)
 
 centro2 = [750,200]
-makeGlyph(dwg, current_group,80,centro2,data5,True)
+makeBarGlyph(dwg, current_group,80,centro2,data2,True)
 
-centro3 = [500,600]
-makeGlyph(dwg, current_group,80,centro3,data3,True)
+centro3 = [1200,200]
+makeBarGlyph(dwg, current_group,80,centro3,data3,True)
 
-centro4 = [900,600]
-makeGlyph(dwg, current_group,80,centro4,data4)
+centro4 = [300,600]
+makeGlyph(dwg, current_group,80,centro4,data1,True)
 
-centro5 = [1200,200]
-makeGlyph(dwg, current_group,80,centro5,data2)
+centro5 = [750,600]
+makeGlyph(dwg, current_group,80,centro5,data2,True)
+
+centro6 = [1200,600]
+makeGlyph(dwg, current_group,80,centro6,data3,True)
+
+
 
 
 dwg.save()
