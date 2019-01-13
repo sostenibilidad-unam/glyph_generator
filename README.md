@@ -3,4 +3,4 @@
 
 o con labels:
 
-[<img src="test3.svg">]()
+[<img src="conlabels.png">]()
