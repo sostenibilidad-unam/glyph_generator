@@ -45,13 +45,15 @@ def addArcs(dwg, current_group, radius, center, data):
         addArc(dwg, current_group, p0=angle2xy(center[0],center[1],r,cortesAngulares[i]-delta), p1=angle2xy(center[0],center[1],r,cortesAngulares[i-1]+delta), radius=r, width=width)
 
         ###addLabels
-        rt = r*1.17
-        middle_angle = (cortesAngulares[i]-cortesAngulares[i-1])/2
+
+        middle_angle = (cortesAngulares[i]+cortesAngulares[i-1])/2
         if middle_angle < 90 or middle_angle > 270:
+            rt = r*1.17
             alverez = "1"
             pt1=angle2xy(center[0],center[1],rt,cortesAngulares[i]-delta)
             pt0=angle2xy(center[0],center[1],rt,cortesAngulares[i-1]+delta)
         else:
+            rt = r*1.25
             alverez = "0"
             pt0=angle2xy(center[0],center[1],rt,cortesAngulares[i]-delta)
             pt1=angle2xy(center[0],center[1],rt,cortesAngulares[i-1]+delta)
@@ -130,13 +132,22 @@ def addDots(dwg, current_group,radius,center,data):
             )
 
             #add Labels
-            text0_xys = [angle2xy(center[0],center[1],radius*1.4,dots_angle+1) for dots_angle in dots_angles]
-            text1_xys = [angle2xy(center[0],center[1],radius*2.5,dots_angle+1) for dots_angle in dots_angles]
 
-            args = {'x0':text0_xys[cual_subcategory][0],
-                'y0':text0_xys[cual_subcategory][1],
-                'x1':text1_xys[cual_subcategory][0],
-                'y1':text1_xys[cual_subcategory][1]}
+
+            if dots_angles[cual_subcategory] > 180:
+                text0_xys = [angle2xy(center[0],center[1],radius*1.4,dots_angle-1) for dots_angle in dots_angles]
+                text1_xys = [angle2xy(center[0],center[1],radius*2.5,dots_angle-1) for dots_angle in dots_angles]
+                args = {'x1':text0_xys[cual_subcategory][0],
+                    'y1':text0_xys[cual_subcategory][1],
+                    'x0':text1_xys[cual_subcategory][0],
+                    'y0':text1_xys[cual_subcategory][1]}
+            else:
+                text0_xys = [angle2xy(center[0],center[1],radius*1.4,dots_angle+1) for dots_angle in dots_angles]
+                text1_xys = [angle2xy(center[0],center[1],radius*2.5,dots_angle+1) for dots_angle in dots_angles]
+                args = {'x0':text0_xys[cual_subcategory][0],
+                    'y0':text0_xys[cual_subcategory][1],
+                    'x1':text1_xys[cual_subcategory][0],
+                    'y1':text1_xys[cual_subcategory][1]}
 
             l = dwg.path(d="M %(x0)f %(y0)f %(x1)f %(y1)f"%args,
                      fill="none",
@@ -291,10 +302,13 @@ centro2 = [700,200]
 makeGlyph(dwg, current_group,80,centro2,data2)
 
 centro3 = [300,600]
-makeGlyph(dwg, current_group,80,centro3,data3)
+makeGlyph(dwg, current_group,50,centro3,data3)
 
 centro4 = [700,600]
-makeGlyph(dwg, current_group,80,centro4,data4)
+makeGlyph(dwg, current_group,50,centro4,data4)
+
+centro5 = [1150,400]
+makeGlyph(dwg, current_group,130,centro5,data)
 
 
 dwg.save()
