@@ -167,7 +167,7 @@ def makeGlyph(dwg, current_group,radius,center,data):
 
 
 data = { "total": {"name" : "Vulnerabilidad",
-                 "value": 0.8},
+                 "value": 0.5},
          "categories":[{"name":"Exposición",
                         "value":0.6,
                         "subcategories":[{"name":"Expocisión A","value":0.2},
@@ -175,6 +175,14 @@ data = { "total": {"name" : "Vulnerabilidad",
                                          {"name":"Expocisión C","value":0.8},
                                          #{"name":"e4","value":0.5}
                                          ]},
+                      {"name":"Resiliencia",
+                       "value":0.9,
+                       "subcategories":[{"name":"Resiliencia A","value":1.0},
+                                      {"name":"Resiliencia B","value":0.9},
+                                      {"name":"Resiliencia C","value":0.8},
+                                      {"name":"Resiliencia D","value":1.0},
+                                      {"name":"Resiliencia E","value":0.8}
+                                      ]},
                        {"name":"Susceptibilidad",
                         "value":0.4,
                         "subcategories":[{"name":"Susceptibilidad A","value":0.5},
@@ -182,114 +190,140 @@ data = { "total": {"name" : "Vulnerabilidad",
                                          {"name":"Susceptibilidad C","value":0.2},
                                          {"name":"Susceptibilidad D","value":0.3}
                                          ]},
-                       {"name":"Resiliencia",
-                        "value":0.9,
-                        "subcategories":[{"name":"Resiliencia A","value":1.0},
-                                         {"name":"Resiliencia B","value":0.9},
-                                         {"name":"Resiliencia C","value":0.8},
-                                         {"name":"Resiliencia D","value":1.0},
-                                         {"name":"Resiliencia E","value":0.8}
-                                         ]}
+
+
+                    ]}
+
+data5 = { "total": {"name" : "Vulnerabilidad",
+                 "value": 0.9},
+         "categories":[{"name":"Exposición",
+                        "value":0.7,
+                        "subcategories":[{"name":"Expocisión A","value":0.6},
+                                         {"name":"Expocisión B","value":0.8},
+                                         {"name":"Expocisión C","value":0.7},
+                                         #{"name":"e4","value":1}
+                                         ]},
+                      {"name":"Resiliencia",
+                       "value":0.3,
+                       "subcategories":[{"name":"Resiliencia A","value":0.3},
+                                      {"name":"Resiliencia B","value":0.2},
+                                      {"name":"Resiliencia C","value":0.4},
+                                      {"name":"Resiliencia D","value":0.2},
+                                      {"name":"Resiliencia E","value":0.4}
+                                      ]},
+                       {"name":"Susceptibilidad",
+                        "value":0.8,
+                        "subcategories":[{"name":"Susceptibilidad A","value":0.7},
+                                         {"name":"Susceptibilidad B","value":0.9},
+                                         {"name":"Susceptibilidad C","value":0.6},
+                                         {"name":"Susceptibilidad D","value":1}
+                                         ]},
+
 
                     ]}
 
 data2 = { "total": {"name" : "Vulnerabilidad",
                  "value": 1.0},
          "categories":[{"name":"Exposición",
-                        "value":1.0,
-                        "subcategories":[{"name":"e1","value":1.0},
-                                         {"name":"e2","value":1.0},
-                                         {"name":"e3","value":1.0},
-                                         #{"name":"e4","value":1.0}
+                        "value":1,
+                        "subcategories":[{"name":"Expocisión A","value":1},
+                                         {"name":"Expocisión B","value":1},
+                                         {"name":"Expocisión C","value":1},
+                                         #{"name":"e4","value":1}
                                          ]},
+                      {"name":"Resiliencia",
+                       "value":1,
+                       "subcategories":[{"name":"Resiliencia A","value":1.0},
+                                      {"name":"Resiliencia B","value":1},
+                                      {"name":"Resiliencia C","value":1},
+                                      {"name":"Resiliencia D","value":1},
+                                      {"name":"Resiliencia E","value":1}
+                                      ]},
                        {"name":"Susceptibilidad",
-                        "value":1.0,
-                        "subcategories":[{"name":"s1","value":1.0},
-                                         {"name":"s2","value":1.0},
-                                         {"name":"s3","value":1.0},
-                                         {"name":"s4","value":1.0}
+                        "value":1,
+                        "subcategories":[{"name":"Susceptibilidad A","value":1},
+                                         {"name":"Susceptibilidad B","value":1},
+                                         {"name":"Susceptibilidad C","value":1},
+                                         {"name":"Susceptibilidad D","value":1}
                                          ]},
-                       {"name":"Resiliencia",
-                        "value":1.0,
-                        "subcategories":[{"name":"r1","value":1.0},
-                                         {"name":"r2","value":1.0},
-                                         {"name":"r3","value":1.0},
-                                         {"name":"r4","value":1.0},
-                                         {"name":"r5","value":1.0}
-                                         ]}
+
 
                     ]}
 
 
-data3 = { "total": {"name" : "Vulnerabilidad",
+
+
+data3 = { "total": {"name" : "Sostenibilidad",
                  "value": 0.7},
-         "categories":[{"name":"Exposición",
+         "categories":[{"name":"Social",
                         "value":1.0,
-                        "subcategories":[{"name":"e1","value":1.0},
-                                         {"name":"e2","value":1.0},
-                                         {"name":"e3","value":1.0},
-                                         {"name":"e4","value":1.0}
+                        "subcategories":[{"name":"Social 1","value":1.0},
+                                         {"name":"Social 2","value":1.0},
+                                         {"name":"Social 3","value":1.0},
+                                         {"name":"Social 4","value":1.0}
                                          ]},
-                       {"name":"Susceptibilidad",
+                       {"name":"Económica",
                         "value":0.5,
-                        "subcategories":[{"name":"s1","value":0.3},
-                                         {"name":"s2","value":0.5},
-                                         {"name":"s3","value":0.7},
-                                         #{"name":"s4","value":0.5}
+                        "subcategories":[{"name":"Económica 1","value":0.3},
+                                         {"name":"Económica 2","value":0.5},
+                                         {"name":"Económica 3","value":0.7},
+                                         #{"name":"Económica 4","value":0.5}
                                          ]},
-                       {"name":"Resiliencia",
+                       {"name":"Ambiental",
                         "value":0.8,
-                        "subcategories":[{"name":"r1","value":0.6},
-                                         {"name":"r2","value":0.7},
-                                         {"name":"r3","value":0.8},
-                                         {"name":"r4","value":0.9},
-                                         {"name":"r5","value":1}
+                        "subcategories":[{"name":"Ambiental 1","value":0.6},
+                                         {"name":"Ambiental 2","value":0.7},
+                                         {"name":"Ambiental 3","value":0.8},
+                                         {"name":"Ambiental 4","value":0.9},
+                                         {"name":"Ambiental 5","value":1}
                                          ]},
-                        {"name":"Otra",
+                        {"name":"Gobernanza",
                          "value":0.6,
-                         "subcategories":[{"name":"o1","value":0.2},
-                                          {"name":"o2","value":1},
-                                          {"name":"o3","value":0.5},
-                                          {"name":"o4","value":0.7},
-                                          {"name":"o5","value":0.6}
+                         "subcategories":[{"name":"Gobernanza 1","value":0.2},
+                                          {"name":"Gobernanza 2","value":1},
+                                          {"name":"Gobernanza 3","value":0.5},
+                                          {"name":"Gobernanza 4","value":0.7},
+                                          {"name":"Gobernanza 5","value":0.6}
                                           ]}
 
                     ]}
 
 data4 = { "total": {"name" : "Sostenibilidad",
                  "value": 1},
-         "categories":[{"name":"Exposición",
+         "categories":[{"name":"Social",
                         "value":1.0,
-                        "subcategories":[{"name":"e1","value":1.0},
-                                         {"name":"e2","value":1.0},
-                                         {"name":"e3","value":1.0},
-                                         {"name":"e4","value":1.0}
+                        "subcategories":[{"name":"Social 1","value":1.0},
+                                         {"name":"Social 2","value":1.0},
+                                         {"name":"Social 3","value":1.0},
+                                         {"name":"Social 4","value":1.0}
                                          ]},
-                       {"name":"Susceptibilidad",
+                       {"name":"Económica",
                         "value":1,
-                        "subcategories":[{"name":"s1","value":1},
-                                         {"name":"s2","value":1},
-                                         {"name":"s3","value":1},
-                                         #{"name":"s4","value":1}
+                        "subcategories":[{"name":"Económica 1","value":1},
+                                         {"name":"Económica 2","value":1},
+                                         {"name":"Económica 3","value":1},
+                                         #{"name":"Económica 4","value":1}
                                          ]},
-                       {"name":"Resiliencia",
+                       {"name":"Ambiental",
                         "value":1,
-                        "subcategories":[{"name":"r1","value":1},
-                                         {"name":"r2","value":1},
-                                         {"name":"r3","value":1},
-                                         {"name":"r4","value":1},
-                                         {"name":"r5","value":1}
+                        "subcategories":[{"name":"Ambiental 1","value":1},
+                                         {"name":"Ambiental 2","value":1},
+                                         {"name":"Ambiental 3","value":1},
+                                         {"name":"Ambiental 4","value":1},
+                                         {"name":"Ambiental 5","value":1}
                                          ]},
-                        {"name":"Otra",
+                        {"name":"Gobernanza",
                          "value":1,
-                         "subcategories":[{"name":"o1","value":1},
-                                          {"name":"o2","value":1},
-                                          {"name":"o3","value":1},
-                                          {"name":"o4","value":1},
-                                          {"name":"o5","value":1}
+                         "subcategories":[{"name":"Gobernanza 1","value":1},
+                                          {"name":"Gobernanza 2","value":1},
+                                          {"name":"Gobernanza 3","value":1},
+                                          {"name":"Gobernanza 4","value":1},
+                                          {"name":"Gobernanza 5","value":1}
                                           ]}
 
                     ]}
+
+
 
 
 dwg = svgwrite.Drawing(filename="test3.svg", debug=True, size=(1500,800))
@@ -298,17 +332,17 @@ current_group = dwg.add(dwg.g(id='uno', fill='none', fill_opacity=0 ))
 centro1 = [300,200]
 makeGlyph(dwg, current_group,80,centro1,data)
 
-centro2 = [700,200]
-makeGlyph(dwg, current_group,80,centro2,data2)
+centro2 = [750,200]
+makeGlyph(dwg, current_group,80,centro2,data5)
 
-centro3 = [300,600]
-makeGlyph(dwg, current_group,50,centro3,data3)
+centro3 = [500,600]
+makeGlyph(dwg, current_group,80,centro3,data3)
 
-centro4 = [700,600]
-makeGlyph(dwg, current_group,50,centro4,data4)
+centro4 = [900,600]
+makeGlyph(dwg, current_group,80,centro4,data4)
 
-centro5 = [1150,400]
-makeGlyph(dwg, current_group,130,centro5,data)
+centro5 = [1200,200]
+makeGlyph(dwg, current_group,80,centro5,data2)
 
 
 dwg.save()
