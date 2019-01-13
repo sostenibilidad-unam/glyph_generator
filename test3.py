@@ -45,18 +45,27 @@ def addArcs(dwg, current_group, radius, center, data):
         addArc(dwg, current_group, p0=angle2xy(center[0],center[1],r,cortesAngulares[i]-delta), p1=angle2xy(center[0],center[1],r,cortesAngulares[i-1]+delta), radius=r, width=width)
 
         ###addLabels
-        rt = r*1.25
-        pt0=angle2xy(center[0],center[1],rt,cortesAngulares[i]-delta)
-        pt1=angle2xy(center[0],center[1],rt,cortesAngulares[i-1]+delta)
+        rt = r*1.17
+        middle_angle = (cortesAngulares[i]-cortesAngulares[i-1])/2
+        if middle_angle < 90 or middle_angle > 270:
+            alverez = "1"
+            pt1=angle2xy(center[0],center[1],rt,cortesAngulares[i]-delta)
+            pt0=angle2xy(center[0],center[1],rt,cortesAngulares[i-1]+delta)
+        else:
+            alverez = "0"
+            pt0=angle2xy(center[0],center[1],rt,cortesAngulares[i]-delta)
+            pt1=angle2xy(center[0],center[1],rt,cortesAngulares[i-1]+delta)
+
         args = {'x0':pt0[0],
             'y0':pt0[1],
             'xradius':rt,
             'yradius':rt,
             'ellipseRotation':0, #has no effect for circles
             'x1':(pt1[0]-pt0[0]),
-            'y1':(pt1[1]-pt0[1])}
+            'y1':(pt1[1]-pt0[1]),
+            'alverez':alverez}
         color = 'green'
-        w = dwg.path(d="M %(x0)f,%(y0)f a %(xradius)f,%(yradius)f %(ellipseRotation)f 0,0 %(x1)f,%(y1)f"%args,
+        w = dwg.path(d="M %(x0)f,%(y0)f a %(xradius)f,%(yradius)f %(ellipseRotation)f 0,%(alverez)s %(x1)f,%(y1)f"%args,
                  fill="none",
                  stroke=color, stroke_width=0
                 )
@@ -77,9 +86,9 @@ def addCircle(dwg, current_group,radius,center,data):
     ###addLabels
     size = int(14*radius/100)
     text_central = dwg.add(svgwrite.text.Text("",style = "font-size:"+str(size)+"px; font-family:Arial; font-weight:bold"))
-    rt = radius*0.7
-    pt0=angle2xy(center[0],center[1],rt,60)
-    pt1=angle2xy(center[0],center[1],rt,300)
+    rt = radius*0.62
+    pt0=angle2xy(center[0],center[1],rt,300)
+    pt1=angle2xy(center[0],center[1],rt,60)
     args = {'x0':pt0[0],
         'y0':pt0[1],
         'xradius':rt,
@@ -87,7 +96,7 @@ def addCircle(dwg, current_group,radius,center,data):
         'ellipseRotation':0, #has no effect for circles
         'x1':(pt1[0]-pt0[0]),
         'y1':(pt1[1]-pt0[1])}
-    w = dwg.path(d="M %(x0)f,%(y0)f a %(xradius)f,%(yradius)f %(ellipseRotation)f 0,0 %(x1)f,%(y1)f"%args,
+    w = dwg.path(d="M %(x0)f,%(y0)f a %(xradius)f,%(yradius)f %(ellipseRotation)f 0,1 %(x1)f,%(y1)f"%args,
              fill="none",
              stroke_width=0
             )
