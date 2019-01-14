@@ -183,7 +183,13 @@ def addLabels(dwg, current_group,radius,center,data):
         cual_subcategory = -1
         for subcategory in category["subcategories"]:
             cual_subcategory += 1
+            name = subcategory["name"]
             if dots_angles[cual_subcategory] > 180:
+
+                l_name = len(name)
+                offset = 87-(l_name*4.63)
+                if offset < 0:
+                    offset = 0
                 text0_xys = [angle2xy(center[0],center[1],radius*1.4,dots_angle-1) for dots_angle in dots_angles]
                 text1_xys = [angle2xy(center[0],center[1],radius*2.5,dots_angle-1) for dots_angle in dots_angles]
                 args = {'x1':text0_xys[cual_subcategory][0],
@@ -191,6 +197,7 @@ def addLabels(dwg, current_group,radius,center,data):
                     'x0':text1_xys[cual_subcategory][0],
                     'y0':text1_xys[cual_subcategory][1]}
             else:
+                offset = 13
                 text0_xys = [angle2xy(center[0],center[1],radius*1.4,dots_angle+1) for dots_angle in dots_angles]
                 text1_xys = [angle2xy(center[0],center[1],radius*2.5,dots_angle+1) for dots_angle in dots_angles]
                 args = {'x0':text0_xys[cual_subcategory][0],
@@ -203,9 +210,10 @@ def addLabels(dwg, current_group,radius,center,data):
                      stroke_width=0
                     )
             current_group.add(l)
-            name = subcategory["name"]
 
-            text_sub.add(svgwrite.text.TextPath(path=l, text=name, startOffset="13%", method='align', spacing='exact'))
+
+
+            text_sub.add(svgwrite.text.TextPath(path=l, text=name, startOffset=str(offset)+"%", method='align', spacing='exact'))
 
 
 def width2r(width,labels, toEnsableLabelsLater):
