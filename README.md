@@ -39,3 +39,7 @@ gw.makeGlyph("glyph6.svg", 400, data3, True, True)
 gw.makeLabels("labels.svg", 400, data1)
 
 [<img src="labels.png">]()
+
+gw.makeGlyph("glyph7.svg", 400, data1, False, True)
+
+[<img src="glyph7.png">]()
