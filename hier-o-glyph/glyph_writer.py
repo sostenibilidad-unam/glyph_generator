@@ -92,7 +92,7 @@ def addBars(dwg, current_group, radius, center, data):
         dots_angles = np.linspace(cortesAngulares[cual_category],
                                   cortesAngulares[cual_category+1],
                                   n_subcategories+2)[1:-1]
-        dots_xys0 = [angle2xy(center[0], center[1], radius*1, 26, dots_angle)
+        dots_xys0 = [angle2xy(center[0], center[1], radius*1.25, dots_angle)
                      for dots_angle in dots_angles]
         cual_subcategory = -1
         for subcategory in category["subcategories"]:
@@ -122,8 +122,8 @@ def addLabels(dwg, current_group, radius, center, data):
                          + str(size)
                          + "px; font-family:Arial; font-weight:bold"))
     rt = radius*0.62
-    pt0 = angle2xy(center[0], center[1], rt, 300)
-    pt1 = angle2xy(center[0], center[1], rt, 60)
+    pt0 = angle2xy(center[0], center[1], rt, 270)
+    pt1 = angle2xy(center[0], center[1], rt, 90)
     args = {'x0': pt0[0],
             'y0': pt0[1],
             'xradius': rt,
@@ -214,6 +214,8 @@ def addLabels(dwg, current_group, radius, center, data):
         for subcategory in category["subcategories"]:
             cual_subcategory += 1
             name = subcategory["name"]
+            if len(name)>17:
+                name = name[:17]
             if dots_angles[cual_subcategory] > 180:
 
                 l_name = len(name)
@@ -254,10 +256,9 @@ def width2r(width,labels, toEnsableLabelsLater):
     return r
 
 
-def makeBarGlyph(path,
-                 svg_width,
+def makeBarGlyph(svg_width,
                  data,
-                 labels=False, toEnsableLabelsLater=True):
+                 labels=False, toEnsableLabelsLater=True, path=None):
     center = [svg_width/2.0,svg_width/2.0]
     dwg = svgwrite.Drawing(filename=path, debug=True, size=(svg_width,svg_width))
     current_group = dwg.add(dwg.g(id='uno', fill='none', fill_opacity=0 ))
@@ -267,9 +268,12 @@ def makeBarGlyph(path,
     addBars(dwg, current_group,r,center,data)
     if labels:
         addLabels(dwg, current_group,r,center,data)
-    dwg.save()
+    if path is None:
+        return dwg.tostring()
+    else:
+        dwg.save()
 
-def makeGlyph(path,svg_width,data,labels=False,toEnsableLabelsLater=True):
+def makeGlyph(svg_width,data,labels=False,toEnsableLabelsLater=True,path=None):
     center = [svg_width/2.0,svg_width/2.0]
     dwg = svgwrite.Drawing(filename=path, debug=True, size=(svg_width,svg_width))
     current_group = dwg.add(dwg.g(id='uno', fill='none', fill_opacity=0 ))
@@ -279,7 +283,11 @@ def makeGlyph(path,svg_width,data,labels=False,toEnsableLabelsLater=True):
     addDots(dwg, current_group,r,center,data)
     if labels:
         addLabels(dwg, current_group,r,center,data)
-    dwg.save()
+        print("labels")
+    if path is None:
+        return dwg.tostring()
+    else:
+        dwg.save()
 
 def makeLabels(path,svg_width,data):
     center = [svg_width/2.0,svg_width/2.0]
