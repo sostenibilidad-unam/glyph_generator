@@ -1,5 +1,30 @@
 import glyph_writer as gw
 
+# import matplotlib
+#
+# matplotlib.use('Agg')
+#
+# from palettable.colorbrewer.sequential import YlGn_6
+#
+# f = YlGn_6.get_mpl_colormap()
+# print(f(127))
+#
+# def color2rgb(palete, index):
+#     index255 = int(255.0 * index)
+#     color_0_1 = palete(index255)
+#     string_rgb = "rgb("+str(color_0_1[0]*255.0)+","+str(color_0_1[1]*255.0)+","+str(color_0_1[2]*255.0)+")"
+#     return string_rgb
+# print(color2rgb(f,0.0))
+# print(color2rgb(f,0.2))
+# print(color2rgb(f,1.0))
+# from matplotlib.colors import LinearSegmentedColormap
+#
+# colors = [(1, 0, 0), (1, 1, 0), (0, 1, 0)]  # R -> Y -> G
+# cm = LinearSegmentedColormap.from_list("semaforo", colors, N=255)
+# print(color2rgb(cm,0.0))
+# print(color2rgb(cm,0.2))
+# print(color2rgb(cm,0.8))
+
 data1 = { "total": {"name" : "Vulnerabilidad",
                  "value": 0.5},
          "categories":[{"name":"Exposición",
