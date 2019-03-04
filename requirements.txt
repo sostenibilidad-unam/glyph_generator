@@ -1,2 +1,4 @@
 svgwrite
 numpy
+pytest
+matplotlib

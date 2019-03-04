@@ -95,7 +95,30 @@ g = hieroglyph.Glyph(svg_width=500,
                      toEnsableLabelsLater=False,
                      path="glyph_data1.svg")
 
-g.render(mode='dots')
+g.render(mode='bars')
+
+
+simple = {"total": {"name": "main",
+                    "value": 0.5},
+          "categories": [
+              {"name": "A",
+               "value": 0.6,
+               "subcategories": [
+                   {"name": "A.1", "value": 0.2},
+                   {"name": "A.2", "value": 0.8}]},
+              {"name": "B",
+               "value": 0.4,
+               "subcategories": [
+                   {"name": "B.1", "value": 0.3},
+                   {"name": "B.2", "value": 0.7}]},
+          ]}
+
+g = hieroglyph.Glyph(svg_width=100,
+                     data=simple,
+                     labels=False,
+                     toEnsableLabelsLater=False)
+
+print g.render(mode='bars')
 
 
 # gw.makeBarGlyph("glyph2.svg", 400, data2, True, True)
