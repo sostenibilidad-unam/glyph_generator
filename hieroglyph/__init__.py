@@ -5,45 +5,6 @@ import matplotlib
 matplotlib.use('Agg')
 from matplotlib.colors import LinearSegmentedColormap
 
-"""
-g = Glyph('Vulnerability', 0.2)
-
-resilience = Arc('Resilience', 0.3)
-resilience.dots.append(Dot('res A', 0.1))
-resilience.dots.append(Dot('res B', 0.3, pallete=rainbow))
-
-icon_dot = Dot('res C', 0.2)
-icon_dot.svg.add_group(some_svg_icon)
-
-resilience.dots.append(icon_dot)
-
-g.add_arc(resilience)
-
-
-g.add_arc(Arc('Susceptibility', 0.1))
-g.arcs['Susceptibility'].add_dot('sus A', 0.1)
-
-with open('glyph.svg', 'w') as f:
-    f.write(g.render())
-
-"""
-
-
-"""
-An experiment with pandas dataframe
-
-data = [{'E': 0.1, 'E1': 0.2},
-        {'R': 0.3, 'R1': 0.2, 'R2': 0.3},
-        {'S': 0.2, 'S1': 0.3, 'S2': 0.4, 'S3': 0.6}]
-
-df = pd.DataFrame(data=data, index=['E', 'R', 'S'])
-
-df.set_index(['E', 'R', 'S'])
-
-g = Glyph(df, bars=True)
-
-"""
-
 
 def logistic(x):
     return 1 / (1.0 + math.exp(-10 * (x - 0.5)))
@@ -81,49 +42,6 @@ def width2r(width, labels, toEnsableLabelsLater, data):
         r = width*0.3
 
     return r
-
-
-# def addDots(dwg, current_group, radius, center, data, palette):
-#     n_categories = len(data["categories"])
-#     cortesAngulares = np.linspace(0, 360, n_categories + 1)
-
-#     cual_category = -1
-#     for category in data["categories"]:
-#         cual_category += 1
-#         n_subcategories = len(category["subcategories"])
-#         dots_angles = np.linspace(cortesAngulares[cual_category],
-#                                   cortesAngulares[cual_category + 1],
-#                                   n_subcategories + 2)[1:-1]
-#         dots_xys = [angle2xy(center[0], center[1], radius * 1.4, dots_angle)
-#                     for dots_angle in dots_angles]
-#         cual_subcategory = -1
-#         for subcategory in category["subcategories"]:
-#             cual_subcategory += 1
-#             x = dots_xys[cual_subcategory][0]
-#             y = dots_xys[cual_subcategory][1]
-#             dwg.add(dwg.circle(center=(x, y),
-#                                r=radius * 0.1 * subcategory["value"],  # aqui talvez que un total de 0 no de un radio 0 si no un radio minimo?
-#                                stroke='none',
-#                                fill=index2rgb(palette,subcategory["value"])))
-
-
-
-# def makeGlyph(svg_width,data,labels=False,toEnsableLabelsLater=True,path=None,
-#                 palette=LinearSegmentedColormap.from_list("verde", [(0, 0.5, 0),(0, 0.5, 0)], N=255)):
-#     center = [svg_width/2.0,svg_width/2.0]
-#     dwg = svgwrite.Drawing(filename=path, debug=True, size=(svg_width,svg_width))
-#     current_group = dwg.add(dwg.g(id='uno', fill='none', fill_opacity=0 ))
-#     r = width2r(svg_width,labels,toEnsableLabelsLater)
-#     addCircle(dwg, current_group,r,center,data,palette)
-#     addArcs(dwg, current_group,r,center,data,palette)
-#     addDots(dwg, current_group,r,center,data,palette)
-#     if labels:
-#         addLabels(dwg, current_group,r,center,data)
-#         print("labels")
-#     if path is None:
-#         return dwg.tostring()
-#     else:
-#         dwg.save()
 
 
 class Glyph:
@@ -373,15 +291,15 @@ class Glyph:
                 pt1 = angle2xy(self.center[0], self.center[1],
                                rt, cortesAngulares[i-1]+delta)
 
-                args = {'x0': pt0[0],
-                        'y0': pt0[1],
-                        'xradius': rt,
-                        'yradius': rt,
-                        'ellipseRotation': 0,  # has no effect for circles
-                        'x1': (pt1[0]-pt0[0]),
-                        'y1': (pt1[1]-pt0[1]),
-                        'alverez': alverez}
-                color = 'green'
+            args = {'x0': pt0[0],
+                    'y0': pt0[1],
+                    'xradius': rt,
+                    'yradius': rt,
+                    'ellipseRotation': 0,  # has no effect for circles
+                    'x1': (pt1[0]-pt0[0]),
+                    'y1': (pt1[1]-pt0[1]),
+                    'alverez': alverez}
+            color = 'green'
 
             w = self.dwg.path(d="M %(x0)f,%(y0)f a %(xradius)f,%(yradius)f \
             %(ellipseRotation)f 0,%(alverez)s %(x1)f,%(y1)f" % args,
@@ -421,20 +339,20 @@ class Glyph:
                         offset = 86-(l_name*4.63)
                         if offset < 0:
                             offset = 0
-                            text0_xys = [
-                                angle2xy(self.center[0], self.center[1],
-                                         radius*1.4,
-                                         dots_angle-1)
-                                for dots_angle in dots_angles]
+                        text0_xys = [
+                            angle2xy(self.center[0], self.center[1],
+                                     radius*1.4,
+                                     dots_angle-1)
+                            for dots_angle in dots_angles]
 
-                            text1_xys = [
-                                angle2xy(self.center[0], self.center[1],
-                                         radius * 2.5, dots_angle-1)
-                                for dots_angle in dots_angles]
-                            args = {'x1': text0_xys[cual_subcategory][0],
-                                    'y1': text0_xys[cual_subcategory][1],
-                                    'x0': text1_xys[cual_subcategory][0],
-                                    'y0': text1_xys[cual_subcategory][1]}
+                        text1_xys = [
+                            angle2xy(self.center[0], self.center[1],
+                                     radius * 2.5, dots_angle-1)
+                            for dots_angle in dots_angles]
+                        args = {'x1': text0_xys[cual_subcategory][0],
+                                'y1': text0_xys[cual_subcategory][1],
+                                'x0': text1_xys[cual_subcategory][0],
+                                'y0': text1_xys[cual_subcategory][1]}
                     else:
                         offset = 13
                         text0_xys = [
@@ -464,7 +382,31 @@ class Glyph:
                                                method='align',
                                                spacing='exact'))
 
-    def render(self):
+    def addDots(self, current_group, radius):
+        n_categories = len(self.data["categories"])
+        cortesAngulares = np.linspace(0, 360, n_categories + 1)
+        cual_category = -1
+        for category in self.data["categories"]:
+            cual_category += 1
+            n_subcategories = len(category["subcategories"])
+            dots_angles = np.linspace(cortesAngulares[cual_category],
+                                      cortesAngulares[cual_category + 1],
+                                      n_subcategories + 2)[1:-1]
+            dots_xys = [angle2xy(self.center[0], self.center[1],
+                                 radius * 1.4, dots_angle)
+                        for dots_angle in dots_angles]
+            cual_subcategory = -1
+            for subcategory in category["subcategories"]:
+                cual_subcategory += 1
+                x = dots_xys[cual_subcategory][0]
+                y = dots_xys[cual_subcategory][1]
+                self.dwg.add(self.dwg.circle(
+                    center=(x, y),
+                    r=radius * 0.1 * subcategory["value"],
+                    stroke='none',
+                    fill=index2rgb(self.palette, subcategory["value"])))
+
+    def render(self, mode='bars'):
         current_group = self.dwg.add(self.dwg.g(id='uno',
                                                 fill='none',
                                                 fill_opacity=0))
@@ -474,7 +416,11 @@ class Glyph:
 
         self.addCircle(current_group, r)
         self.addArcs(current_group, r)
-        self.addBars(current_group, r)
+
+        if mode == 'bars':
+            self.addBars(current_group, r)
+        elif mode == 'dots':
+            self.addDots(current_group, r)
 
         if self.labels:
             self.addLabels(current_group, r)
