@@ -338,7 +338,7 @@ def addLabels(dwg, current_group, radius, center, data):
             if dots_angles[cual_subcategory] > 180:
 
                 l_name = len(name)
-                offset = 87-(l_name*4.63)
+                offset = 86-(l_name*4.63)
                 if offset < 0:
                     offset = 0
                 text0_xys = [angle2xy(center[0],center[1],radius*1.4,dots_angle-1) for dots_angle in dots_angles]
@@ -367,9 +367,17 @@ def addLabels(dwg, current_group, radius, center, data):
             text_sub.add(svgwrite.text.TextPath(path=l, text=name, startOffset=str(offset)+"%", method='align', spacing='exact'))
 
 
-def width2r(width,labels, toEnsableLabelsLater):
+def width2r(width,labels, toEnsableLabelsLater, data):
+
+
     if labels or toEnsableLabelsLater:
-        r = width/4.8
+        bigest_subcat_len = 0
+        for category in data["categories"]:
+            for subcategory in category["subcategories"]:
+                bigest_subcat_len = max(bigest_subcat_len,len(subcategory["name"]))
+        bigest_subcat_len = min(17,bigest_subcat_len)
+        k = 0.00541
+        r = width*(0.3-(k*bigest_subcat_len))
     else:
         r = width*0.3
     return r
@@ -384,7 +392,7 @@ def makeBarGlyph(svg_width,
     center = [svg_width/2.0,svg_width/2.0]
     dwg = svgwrite.Drawing(filename=path, debug=True, size=(svg_width,svg_width))
     current_group = dwg.add(dwg.g(id='uno', fill='none', fill_opacity=0 ))
-    r = width2r(svg_width,labels,toEnsableLabelsLater)
+    r = width2r(svg_width,labels,toEnsableLabelsLater, data)
     addCircle(dwg, current_group,r,center,data,palette)
     addArcs(dwg, current_group,r,center,data,palette)
     addBars(dwg, current_group,r,center,data,palette)
@@ -416,6 +424,6 @@ def makeLabels(path,svg_width,data):
     center = [svg_width/2.0,svg_width/2.0]
     dwg = svgwrite.Drawing(filename=path, debug=True, size=(svg_width,svg_width))
     current_group = dwg.add(dwg.g(id='uno', fill='none', fill_opacity=0 ))
-    r = width2r(svg_width,True,False)
+    r = width2r(svg_width,True,False,data)
     addLabels(dwg, current_group,r,center,data)
     dwg.save()
